@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <header-site @strSearch="getMovieData" />
-    <main-site :data="data" />
+    <header-site @strSearch="getData" />
+    <main-site :movieData="movieData" :seriesData="seriesData" />
   </div>
 </template>
 
@@ -23,14 +23,19 @@ export default {
       seriesURL: 'tv/',
       APIkey: '?api_key=2a1eafb77e5173892c5f55c2d7d7a8c8',
       search: '',
-      data: []
+      movieData: [],
+      seriesData: []
     }
   },
   methods: {
-    getMovieData(str){
+    getData(str){
       this.search = str
+
       axios.get(this.baseURL + this.movieURL + this.APIkey + '&query=' + this.search)
-      .then((response) => { this.data = response.data.results })
+      .then((response) => { this.movieData = response.data.results })
+
+      axios.get(this.baseURL + this.seriesURL + this.APIkey + '&query=' + this.search)
+      .then((response) => { this.seriesData = response.data.results })
     }
   },
 }

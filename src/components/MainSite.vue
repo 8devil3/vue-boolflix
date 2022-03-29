@@ -1,24 +1,41 @@
 <template>
+<main>
+    <h2>film</h2>
     <ul>
-        <li v-for="details in data" :key="details.id">
-            <p>{{ details.title }}</p>
-            <p>{{ details.original_title }}</p>
-            <p>{{ details.original_language }}</p>
-            <p>{{ details.vote_average }}</p>
+        <li v-for="mDetails in movieData" :key="mDetails.id">
+            <p>{{ mDetails.title }}</p>
+            <p>{{ mDetails.original_title }}</p>
+            <p>{{ mDetails.original_language }}</p>
+            <p v-if="mDetails.original_language == '' || mDetails.original_language == 'xx'">Nessuna lingua</p>
+            <lang-flag v-else :iso="mDetails.original_language" :squared="false" />
+            <p>{{ mDetails.vote_average }}</p>
         </li>
     </ul>
+    <h2>serie TV</h2>
+        <ul>
+        <li v-for="sDetails in seriesData" :key="sDetails.id">
+            <p>{{ sDetails.name }}</p>
+            <p>{{ sDetails.original_name }}</p>
+            <p>{{ sDetails.original_language }}</p>
+            <p v-if="sDetails.original_language == '' || sDetails.original_language == 'xx'">Nessuna lingua</p>
+            <lang-flag v-else :iso="sDetails.original_language" :squared="false" />
+            <p>{{ sDetails.vote_average }}</p>
+        </li>
+    </ul>
+</main>
 </template>
 
 <script>
+import LangFlag from 'vue-lang-code-flags'
+
 export default {
     name: 'MainSite.vue',
-    data(){
-        return {
-
-        }
+    components: {
+        LangFlag
     },
     props: {
-        data: Array
+        movieData: Array,
+        seriesData: Array
     }
 }
 </script>
