@@ -31,10 +31,10 @@ export default {
     getData(str){
       this.search = str
 
-      axios.get(this.baseURL + this.movieURL + this.APIkey + '&query=' + this.search)
+      axios.get(this.baseURL + this.movieURL + this.APIkey + '&language=it-IT&query=' + this.search + '&include_adult=false')
       .then((response) => { this.movieData = response.data.results })
 
-      axios.get(this.baseURL + this.seriesURL + this.APIkey + '&query=' + this.search)
+      axios.get(this.baseURL + this.seriesURL + this.APIkey + '&language=it-IT&query=' + this.search + '&include_adult=false')
       .then((response) => { this.seriesData = response.data.results })
     }
   },
@@ -42,7 +42,12 @@ export default {
 </script>
 
 <style lang="scss">
+@import './assets/global.scss';
+
 #app {
   font-family: Helvetica, Arial, sans-serif;
+  color: #e6e6e6;
+  background-color: #333;
+  min-height: 100vh;
 }
 </style>

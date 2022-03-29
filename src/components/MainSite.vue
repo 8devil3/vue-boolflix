@@ -1,65 +1,30 @@
 <template>
 <main>
-    <h2>film</h2>
-    <ul>
-        <li v-for="mDetails in movieData" :key="mDetails.id">
-            <p>{{ mDetails.title }}</p>
-            <p>{{ mDetails.original_title }}</p>
-            <p>{{ mDetails.original_language }}</p>
+    <div class="col container">
+        <h2>Film ({{ movieData.length }})</h2>
+        <p v-if="movieData.length == 0">Nessun risultato</p>
+        <div class="wrapper row wrap align-stretch" v-else>
+            <movie-card v-for="movie in movieData" :key="movie.id" :mDetails="movie"/>
+        </div>
 
-            <p v-if="mDetails.original_language == '' || mDetails.original_language == 'xx'">Nessuna lingua</p>
-            <lang-flag v-else :iso="mDetails.original_language" :squared="false" />
-
-            <p>{{ setRating(mDetails.vote_average) }}</p>
-            <p><i class="fa-solid fa-star" v-for="fullStar in setRating(mDetails.vote_average)"></i><i class="fa-regular fa-star" v-for="emptyStar in 5 - setRating(mDetails.vote_average)"></i></p>
-
-            <img v-if="mDetails.poster_path != null" :src="imgBaseURL + imgSizeSmall + mDetails.poster_path" :alt="mDetails.title">
-            <p v-else>Nessuna immagine</p>
-        </li>
-    </ul>
-    <h2>serie TV</h2>
-        <ul>
-        <li v-for="sDetails in seriesData" :key="sDetails.id">
-            <p>{{ sDetails.name }}</p>
-            <p>{{ sDetails.original_name }}</p>
-            <p>{{ sDetails.original_language }}</p>
-
-            <p v-if="sDetails.original_language == '' || sDetails.original_language == 'xx'">Nessuna lingua</p>
-            <lang-flag v-else :iso="sDetails.original_language" :squared="false" />
-
-            <p>{{ setRating(sDetails.vote_average) }}</p>
-            <p><i class="fa-solid fa-star" v-for="fullStar in setRating(sDetails.vote_average)"></i><i class="fa-regular fa-star" v-for="emptyStar in 5 - setRating(sDetails.vote_average)"></i></p>
-
-            <img v-if="sDetails.poster_path != null" :src="imgBaseURL + imgSizeSmall + sDetails.poster_path" :alt="sDetails.title">
-            <p v-else>Nessuna immagine</p>
-        </li>
-    </ul>
+        <h2>Serie TV ({{ seriesData.length }})</h2>
+        <p v-if="seriesData.length == 0">Nessun risultato</p>
+        <div class="wrapper row wrap align-stretch" v-else>
+            <series-card v-for="serie in seriesData" :key="serie.id" :sDetails="serie" />
+        </div>
+    </div>
 </main>
 </template>
 
 <script>
-import LangFlag from 'vue-lang-code-flags'
+import MovieCard from './MovieCard.vue'
+import SeriesCard from './SeriesCard.vue'
 
 export default {
     name: 'MainSite.vue',
     components: {
-        LangFlag //https://github.com/qWici/vue-lang-code-flags
-    },
-    data(){
-        return {
-            imgBaseURL: 'https://image.tmdb.org/t/p/',
-            imgSizeSmall: 'w154',
-            imgSizeMedium: 'w342',
-            imgSizeLarge: 'w500',
-            imgSizeBig: 'w780',
-            imgURL: '',
-            mIntRating: null,
-        }
-    },
-    methods: {
-        setRating(rating){
-            return Math.ceil(rating / 2)
-        }
+        SeriesCard,
+        MovieCard
     },
     props: {
         movieData: Array,
@@ -68,6 +33,24 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+main {
+    padding: 0 1rem;
 
+    .container {
+        max-width: 1680px;
+
+        .wrapper {
+            min-height: 512px;
+            margin: 0 -0.5rem
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            color: #999;
+            margin: 2rem 0 1rem 0;
+        }
+    }
+}
 </style>

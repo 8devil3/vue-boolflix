@@ -1,0 +1,54 @@
+article {
+    width: 342px;
+    height: 512px;
+    margin: 0.5rem;
+    background-color: #1a1a1a;
+    border: 1px #666 solid;
+
+    .img-box {
+        margin: auto;
+    }
+
+    img {
+        width: 100%;
+        display: block;
+    }
+
+    .no-img {
+        text-transform: uppercase;
+        font-weight: 700;
+        color: #666;
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .data {
+        color: #e6e6e6;
+        display: none;
+        padding: 1rem;
+        overflow-y: auto;
+
+        .overview {
+            line-height: 150%;
+            align-self: stretch;
+        }
+
+        p:not(:last-child) {
+            margin-bottom: 0.8rem;
+        }
+
+        i {
+            color: gold;
+        }
+    }
+
+    &:hover .img-box {
+        display: none;
+    }
+
+    &:hover .data{
+        display: flex;
+        flex-direction: column;
+    }
+
+}
