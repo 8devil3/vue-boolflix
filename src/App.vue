@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header-site @strSearch="getData" />
-    <main-site :movieData="movieData" :seriesData="seriesData" />
+    <main-site :arrMovies="arrMovies" :arrSeries="arrSeries"/>
   </div>
 </template>
 
@@ -18,26 +18,48 @@ export default {
   },
   data(){
     return {
-      baseURL: 'https://api.themoviedb.org/3/search/',
-      movieURL: 'movie/',
-      seriesURL: 'tv/',
+      baseURL: 'https://api.themoviedb.org/3/search/multi/',
       APIkey: '?api_key=2a1eafb77e5173892c5f55c2d7d7a8c8',
       search: '',
-      movieData: [],
-      seriesData: []
+      arrData: [],
+      arrMovies: [],
+      arrSeries: []
     }
   },
   methods: {
     getData(str){
       this.search = str
 
-      axios.get(this.baseURL + this.movieURL + this.APIkey + '&language=it-IT&query=' + this.search + '&include_adult=false')
-      .then((response) => { this.movieData = response.data.results })
+      if (str == '' || str == null) {
+        this.resetSearch() //riporto lo stato iniziale in cui i film sono assenti
+      } else {
+        axios.get(this.baseURL + this.APIkey + '&language=it-IT&query=' + this.search + '&include_adult=false')
+        .then((response) => {
+          this.arrData = response.data.results
+          this.setMovieSeries()
+        })
+      }
 
-      axios.get(this.baseURL + this.seriesURL + this.APIkey + '&language=it-IT&query=' + this.search + '&include_adult=false')
-      .then((response) => { this.seriesData = response.data.results })
+    },
+    setMovieSeries(){
+      this.arrMovies = []
+      this.arrSeries = []
+
+      this.arrData.forEach(item => {
+          if (item.media_type == "movie") {
+              this.arrMovies.push(item)
+          } else if (item.media_type == "tv") {
+            this.arrSeries.push(item)
+          } else {
+            //nothing
+          }
+      })
+    },
+    resetSearch(){
+      this.arrMovies = []
+      this.arrSeries = []
     }
-  },
+  }
 }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-<header class="row justify-between align-center">
+<header class="row justify-between align-center wrap">
     <h1>boolflix</h1>
     <div class="row align-stretch align-center">
         <input @keyup.enter="$emit('strSearch', strSearch)" type="text" id="search" v-model="strSearch">
@@ -28,20 +28,34 @@ header {
     h1 {
         color: red;
         text-transform: uppercase;
+        margin: 1rem 0;
     }
 
-    input {
-        height: 1.5rem;
-        border: 0;
-        padding: 0 0.5rem;
-    }
+    > div {
+        border-radius: 100px;
+        overflow: hidden;
 
-    button {
-        background-color: red;
-        color: white;
-        padding: 0 0.5rem;
-        text-transform: uppercase;
-        cursor: pointer;
+        input {
+            height: 2rem;
+            border: 0;
+            padding: 0 1rem;
+            
+            &:focus, &:focus-visible {
+                outline: 0;
+            }
+        }
+
+        button {
+            background-color: red;
+            color: white;
+            padding: 0 0.5rem;
+            text-transform: uppercase;
+            cursor: pointer;
+
+            &:hover {
+                background-color: rgb(255, 95, 95);
+            }
+        }
     }
 }
 </style>

@@ -1,34 +1,34 @@
 <template>
 <main>
     <div class="col container">
-        <h2>Film ({{ movieData.length }})</h2>
-        <p v-if="movieData.length == 0">Nessun risultato</p>
+        <h2>Film ({{ arrMovies.length }})</h2>
+        <p v-if="arrMovies.length == 0">Nessun risultato</p>
         <div class="wrapper row wrap align-stretch" v-else>
-            <movie-card v-for="movie in movieData" :key="movie.id" :mDetails="movie"/>
+            <card-data v-for="movieShow in arrMovies" :key="movieShow.id" :details="movieShow"/>
         </div>
 
-        <h2>Serie TV ({{ seriesData.length }})</h2>
-        <p v-if="seriesData.length == 0">Nessun risultato</p>
+        <hr>
+
+        <h2>Serie TV ({{ arrSeries.length }})</h2>
+        <p v-if="arrSeries.length == 0">Nessun risultato</p>
         <div class="wrapper row wrap align-stretch" v-else>
-            <series-card v-for="serie in seriesData" :key="serie.id" :sDetails="serie" />
+            <card-data v-for="tvShow in arrSeries" :key="tvShow.id" :details="tvShow"/>
         </div>
     </div>
 </main>
 </template>
 
 <script>
-import MovieCard from './MovieCard.vue'
-import SeriesCard from './SeriesCard.vue'
+import CardData from './CardData.vue'
 
 export default {
     name: 'MainSite.vue',
     components: {
-        SeriesCard,
-        MovieCard
+        CardData,
     },
     props: {
-        movieData: Array,
-        seriesData: Array
+        arrMovies: Array,
+        arrSeries: Array
     }
 }
 </script>
@@ -43,6 +43,13 @@ main {
         .wrapper {
             min-height: 512px;
             margin: 0 -0.5rem
+        }
+
+        hr {
+            border: 0;
+            background-color: #666;
+            height: 2px;
+            margin: 3rem 0 1.5rem 0;
         }
         
         h2 {
