@@ -17,7 +17,8 @@
             <i class="fa-regular fa-star" v-for="emptyStar in 5 - setRating(mDetails.vote_average)"></i>
         </p>
         
-        <p class="overview"><strong>Trama: </strong>{{ mDetails.overview }}</p>
+        <p v-if="mDetails.overview != ''" class="overview"><strong>Trama: </strong>{{ mDetails.overview }}</p>
+        <p v-else class="overview"><em>Trama non disponibile</em></p>
     </div>
 </article>
 </template>
