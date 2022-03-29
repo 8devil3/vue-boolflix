@@ -6,10 +6,15 @@
             <p>{{ mDetails.title }}</p>
             <p>{{ mDetails.original_title }}</p>
             <p>{{ mDetails.original_language }}</p>
+
             <p v-if="mDetails.original_language == '' || mDetails.original_language == 'xx'">Nessuna lingua</p>
             <lang-flag v-else :iso="mDetails.original_language" :squared="false" />
-            <p>{{ mDetails.vote_average }}</p>
-            <img :src="imgBaseURL + imgSizeSmall + mDetails.poster_path" :alt="mDetails.title">
+
+            <p>{{ setRating(mDetails.vote_average) }}</p>
+            <p><i class="fa-solid fa-star" v-for="fullStar in setRating(mDetails.vote_average)"></i><i class="fa-regular fa-star" v-for="emptyStar in 5 - setRating(mDetails.vote_average)"></i></p>
+
+            <img v-if="mDetails.poster_path != null" :src="imgBaseURL + imgSizeSmall + mDetails.poster_path" :alt="mDetails.title">
+            <p v-else>Nessuna immagine</p>
         </li>
     </ul>
     <h2>serie TV</h2>
@@ -18,10 +23,15 @@
             <p>{{ sDetails.name }}</p>
             <p>{{ sDetails.original_name }}</p>
             <p>{{ sDetails.original_language }}</p>
+
             <p v-if="sDetails.original_language == '' || sDetails.original_language == 'xx'">Nessuna lingua</p>
             <lang-flag v-else :iso="sDetails.original_language" :squared="false" />
-            <p>{{ sDetails.vote_average }}</p>
-            <img :src="imgBaseURL + imgSizeSmall + sDetails.poster_path" :alt="sDetails.title">
+
+            <p>{{ setRating(sDetails.vote_average) }}</p>
+            <p><i class="fa-solid fa-star" v-for="fullStar in setRating(sDetails.vote_average)"></i><i class="fa-regular fa-star" v-for="emptyStar in 5 - setRating(sDetails.vote_average)"></i></p>
+
+            <img v-if="sDetails.poster_path != null" :src="imgBaseURL + imgSizeSmall + sDetails.poster_path" :alt="sDetails.title">
+            <p v-else>Nessuna immagine</p>
         </li>
     </ul>
 </main>
@@ -43,6 +53,12 @@ export default {
             imgSizeLarge: 'w500',
             imgSizeBig: 'w780',
             imgURL: '',
+            mIntRating: null,
+        }
+    },
+    methods: {
+        setRating(rating){
+            return Math.ceil(rating / 2)
         }
     },
     props: {
