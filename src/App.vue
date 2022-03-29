@@ -1,28 +1,43 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <header-site @strSearch="getMovieData" />
+    <main-site :data="data" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from 'axios'
+import HeaderSite from './components/HeaderSite.vue'
+import MainSite from './components/MainSite.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    HeaderSite,
+    MainSite
+  },
+  data(){
+    return {
+      baseURL: 'https://api.themoviedb.org/3/search/',
+      movieURL: 'movie/',
+      seriesURL: 'tv/',
+      APIkey: '?api_key=2a1eafb77e5173892c5f55c2d7d7a8c8',
+      search: '',
+      data: []
+    }
+  },
+  methods: {
+    getMovieData(str){
+      this.search = str
+      axios.get(this.baseURL + this.movieURL + this.APIkey + '&query=' + this.search)
+      .then((response) => { this.data = response.data.results })
+    }
+  },
 }
 </script>
 
 <style lang="scss">
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: Helvetica, Arial, sans-serif;
 }
 </style>
