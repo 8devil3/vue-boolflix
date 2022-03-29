@@ -20,7 +20,6 @@ export default {
     return {
       baseURL: 'https://api.themoviedb.org/3/search/multi/',
       APIkey: '?api_key=2a1eafb77e5173892c5f55c2d7d7a8c8',
-      search: '',
       arrData: [],
       arrMovies: [],
       arrSeries: []
@@ -28,12 +27,10 @@ export default {
   },
   methods: {
     getData(str){
-      this.search = str
-
       if (str == '' || str == null) {
         this.resetSearch() //riporto lo stato iniziale in cui i film sono assenti
       } else {
-        axios.get(this.baseURL + this.APIkey + '&language=it-IT&query=' + this.search + '&include_adult=false')
+        axios.get(this.baseURL + this.APIkey + '&language=it-IT&query=' + str + '&include_adult=false')
         .then((response) => {
           this.arrData = response.data.results
           this.setMovieSeries()
