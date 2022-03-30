@@ -40,60 +40,40 @@ export default {
       }
     },
     getMoviesSeries(str, urlChunk){
-      if (urlChunk == this.urlMovie) {
-        axios.get(this.baseURL + 'search/' + urlChunk, { params: {
-          api_key: this.APIkey,
-          language: this.language,
-          query: str,
-          include_adult: this.adulte
-        }
-        })
-        .then((response) => {
-          this.arrMovies = response.data.results
-
-          this.getCredits(this.urlMovie)
-        })
-      } else {
-        axios.get(this.baseURL + 'search/' + urlChunk, { params: {
-          api_key: this.APIkey,
-          language: this.language,
-          query: str,
-          include_adult: this.adulte
-        }
-        })
-        .then((response) => {
-          this.arrSeries = response.data.results
-          
-          this.getCredits(this.urlSeries)
-        })
+      axios.get(this.baseURL + 'search/' + urlChunk, { params: {
+        api_key: this.APIkey,
+        language: this.language,
+        query: str,
+        include_adult: this.adulte
       }
+      })
+      .then((response) => {
+        if (urlChunk == this.urlMovie) {
+          this.arrMovies = response.data.results
+          this.getCredits(this.urlMovie, this.arrMovies)
+        } else {
+          this.arrSeries = response.data.results
+          this.getCredits(this.urlSeries, this.arrSeries)
+        }
+      })
     },
-    getCredits(urlChunk){
-      if (urlChunk == this.urlMovie) {
-        this.arrMovies.forEach((item, index) => {
-          axios.get(this.baseURL + urlChunk + item.id + '/credits', { params: {
-              api_key: this.APIkey,
-              language: this.language,
-            }
-            })
-          .then((response) => {
+    getCredits(urlChunk, arrData){
+      arrData.forEach((item, index) => {
+        axios.get(this.baseURL + urlChunk + item.id + '/credits', { params: {
+            api_key: this.APIkey,
+            language: this.language,
+          }
+          })
+        .then((response) => {
+          if (urlChunk == this.urlMovie) {
             this.arrMoviesCast = response.data.cast
             this.arrMovies[index].cast = this.arrMoviesCast.slice(0, 5)
-          })
-        })
-      } else {
-        this.arrSeries.forEach((item, index) => {
-          axios.get(this.baseURL + urlChunk + item.id + '/credits', { params: {
-              api_key: this.APIkey,
-              language: this.language,
-            }
-            })
-          .then((response) => {
+          } else {
             this.arrSeriesCast = response.data.cast
             this.arrSeries[index].cast = this.arrSeriesCast.slice(0, 5)
-          })
+          }
         })
-      }
+      })
     },
   }
 }
