@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header-site @strSearch="getData" />
-    <main-site :arrMovies="setMovie()" :arrSeries="setSeries()"/>
+    <main-site :arrMovies="arrMovies" :arrSeries="arrSeries"/>
   </div>
 </template>
 
@@ -18,14 +18,16 @@ export default {
   },
   data(){
     return {
-      baseURL: 'https://api.themoviedb.org/3/search/',
+      baseURL: 'https://api.themoviedb.org/3/',
       APIkey: '2a1eafb77e5173892c5f55c2d7d7a8c8',
+      urlMovie: 'movie/',
+      urlSeries: 'tv/',
       language: 'it-IT',
       adulte: false,
-      arrData: [],
       arrMovies: [],
       arrSeries: [],
-      arrCast: []
+      arrMoviesCast: [],
+      arrSeriesCast: []
     }
   },
   methods: {
@@ -33,7 +35,13 @@ export default {
       if (str == '' || str == null) {
         //nothing
       } else {
-        axios.get(this.baseURL, { params: {
+        this.getMoviesSeries(str, this.urlMovie)
+        this.getMoviesSeries(str, this.urlSeries)
+      }
+    },
+    getMoviesSeries(str, urlChunk){
+      if (urlChunk == this.urlMovie) {
+        axios.get(this.baseURL + 'search/' + urlChunk, { params: {
           api_key: this.APIkey,
           language: this.language,
           query: str,
@@ -41,37 +49,52 @@ export default {
         }
         })
         .then((response) => {
-          this.arrData = response.data.results
+          this.arrMovies = response.data.results
+
+          this.getCredits(this.urlMovie)
         })
-        .then(() => {
-          this.setCredits()
+      } else {
+        axios.get(this.baseURL + 'search/' + urlChunk, { params: {
+          api_key: this.APIkey,
+          language: this.language,
+          query: str,
+          include_adult: this.adulte
+        }
+        })
+        .then((response) => {
+          this.arrSeries = response.data.results
+          
+          this.getCredits(this.urlSeries)
         })
       }
     },
-    setMovie(){
-      return this.arrData.filter(item => {
-        return item.media_type == 'movie'
-      })
+    getCredits(urlChunk){
+      if (urlChunk == this.urlMovie) {
+        this.arrMovies.forEach((item, index) => {
+          axios.get(this.baseURL + urlChunk + item.id + '/credits', { params: {
+              api_key: this.APIkey,
+              language: this.language,
+            }
+            })
+          .then((response) => {
+            this.arrMoviesCast = response.data.cast
+            this.arrMovies[index].cast = this.arrMoviesCast.slice(0, 5)
+          })
+        })
+      } else {
+        this.arrSeries.forEach((item, index) => {
+          axios.get(this.baseURL + urlChunk + item.id + '/credits', { params: {
+              api_key: this.APIkey,
+              language: this.language,
+            }
+            })
+          .then((response) => {
+            this.arrSeriesCast = response.data.cast
+            this.arrSeries[index].cast = this.arrSeriesCast.slice(0, 5)
+          })
+        })
+      }
     },
-    setSeries(){
-      return this.arrData.filter(item => {
-        return item.media_type == 'tv'
-      })
-    },
-    setCredits(){
-      this.arrData.forEach((item, index) => {
-        this.getCredits(item.id, index)
-      })
-    },
-    getCredits(id, index){
-      this.arrCast = []
-
-      axios.get('https://api.themoviedb.org/3/movie/' + id + '/credits?api_key=' + this.APIkey + '&language=it-IT')
-      .then((response) => {
-        this.arrCast = response.data.cast
-        this.arrData[index].cast = this.arrCast.slice(0, 5)
-      })
-    }
   }
 }
 </script>
