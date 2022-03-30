@@ -5,8 +5,8 @@
         <p v-else class="no-img">Locandina non disponibile</p>
     </div>
     <div class="data">
-        <p><strong>Titolo: </strong>{{ details.title }}</p>
-        <p><strong>Titolo originale: </strong>{{ details.original_title }}</p>
+        <p><strong>Titolo: </strong>{{ details.title || details.name }}</p>
+        <p><strong>Titolo originale: </strong>{{ details.original_title || details.original_name }}</p>
 
         <p v-if="details.original_language == '' || details.original_language == 'xx'">Nessuna lingua</p>
         <p v-else><strong>Lingua: </strong><lang-flag :iso="details.original_language" :squared="false" /></p>

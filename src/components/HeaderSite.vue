@@ -2,7 +2,7 @@
 <header class="row justify-between align-center wrap">
     <h1>boolflix</h1>
     <div class="row align-stretch align-center">
-        <input @keyup.enter="$emit('strSearch', strSearch)" type="text" id="search" v-model="strSearch">
+        <input @keyup.enter="$emit('strSearch', strSearch)" type="text" id="search" v-model.trim="strSearch">
         <button @click="$emit('strSearch', strSearch)">cerca</button>
     </div>
 </header>
