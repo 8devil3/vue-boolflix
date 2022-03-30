@@ -1,7 +1,7 @@
 <template>
 <header class="row justify-between align-center wrap">
     <h1>boolflix</h1>
-    <div class="row align-stretch align-center">
+    <div class="row align-center">
         <input @keyup.enter="$emit('strSearch', strSearch)" type="text" id="search" v-model.trim="strSearch">
         <button @click="$emit('strSearch', strSearch)">cerca</button>
     </div>
@@ -50,6 +50,7 @@ header {
             color: white;
             padding: 0 0.5rem;
             text-transform: uppercase;
+            align-self: stretch;
             cursor: pointer;
 
             &:hover {
