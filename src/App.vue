@@ -19,7 +19,9 @@ export default {
   data(){
     return {
       baseURL: 'https://api.themoviedb.org/3/search/multi/',
-      APIkey: '?api_key=2a1eafb77e5173892c5f55c2d7d7a8c8',
+      APIkey: '2a1eafb77e5173892c5f55c2d7d7a8c8',
+      language: 'it-IT',
+      adulte: false,
       arrData: [],
       arrMovies: [],
       arrSeries: []
@@ -30,7 +32,13 @@ export default {
       if (str == '' || str == null) {
         this.resetSearch() //riporto lo stato iniziale in cui i film sono assenti
       } else {
-        axios.get(this.baseURL + this.APIkey + '&language=it-IT&query=' + str + '&include_adult=false')
+        axios.get(this.baseURL, { params: {
+          api_key: this.APIkey,
+          language: this.language,
+          query: str,
+          include_adult: this.adulte
+        }
+        })
         .then((response) => {
           this.arrData = response.data.results
           this.setMovieSeries()
