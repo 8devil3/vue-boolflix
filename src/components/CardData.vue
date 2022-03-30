@@ -1,24 +1,26 @@
 <template>
-<article class="col">
-    <div class="img-box col">
-        <img v-if="details.poster_path != null" :src="imgBaseURL + imgSizeMedium + details.poster_path" :alt="details.title">
-        <p v-else class="no-img">Locandina non disponibile</p>
-    </div>
-    <div class="data">
-        <p><strong>Titolo: </strong>{{ details.title || details.name }}</p>
-        <p><strong>Titolo originale: </strong>{{ details.original_title || details.original_name }}</p>
+<article>
+    <div class="card-wrapper">
+        <div class="img-box col">
+            <img v-if="details.poster_path != null" :src="imgBaseURL + imgSizeMedium + details.poster_path" :alt="details.title">
+            <p v-else class="no-img">Locandina non disponibile</p>
+        </div>
+        <div class="data">
+            <p><strong>Titolo: </strong>{{ details.title || details.name }}</p>
+            <p><strong>Titolo originale: </strong>{{ details.original_title || details.original_name }}</p>
 
-        <p v-if="details.original_language == '' || details.original_language == 'xx'">Nessuna lingua</p>
-        <p v-else><strong>Lingua: </strong><lang-flag :iso="details.original_language" :squared="false" /></p>
+            <p v-if="details.original_language == '' || details.original_language == 'xx'">Nessuna lingua</p>
+            <p v-else><strong>Lingua: </strong><lang-flag :iso="details.original_language" :squared="false" /></p>
 
-        <p>
-            <strong>Rating: </strong>
-            <i class="fa-solid fa-star" v-for="fullStar in setRating(details.vote_average)"></i>
-            <i class="fa-regular fa-star" v-for="emptyStar in 5 - setRating(details.vote_average)"></i>
-        </p>
-        
-        <p v-if="details.overview != ''" class="overview"><strong>Trama: </strong>{{ details.overview }}</p>
-        <p v-else class="overview"><em>Trama non disponibile</em></p>
+            <p>
+                <strong>Rating: </strong>
+                <i class="fa-solid fa-star" v-for="fullStar in setRating(details.vote_average)"></i>
+                <i class="fa-regular fa-star" v-for="emptyStar in 5 - setRating(details.vote_average)"></i>
+            </p>
+            
+            <p v-if="details.overview != ''" class="overview"><strong>Trama: </strong>{{ details.overview }}</p>
+            <p v-else class="overview"><em>Trama non disponibile</em></p>
+        </div>
     </div>
 </article>
 </template>
@@ -57,11 +59,23 @@ article {
     width: 21.375rem;
     height: 32rem;
     margin: 0.5rem;
-    background-color: #1a1a1a;
-    border: 1px #666 solid;
+    perspective: 80rem;
+
+    .card-wrapper {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        background-color: #1a1a1a;
+        border: 1px #666 solid;
+        transform-style: preserve-3d;
+        transition: transform 0.6s;
+    }
 
     .img-box {
-        margin: auto;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        backface-visibility: hidden;
     }
 
     img {
@@ -70,6 +84,7 @@ article {
     }
 
     .no-img {
+        margin: auto;
         text-transform: uppercase;
         font-weight: 700;
         color: #666;
@@ -79,9 +94,13 @@ article {
 
     .data {
         color: #e6e6e6;
-        display: none;
         padding: 1rem;
         overflow-y: auto;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        backface-visibility: hidden;
+        transform: rotateY(180deg);
 
         .overview {
             line-height: 150%;
@@ -97,8 +116,8 @@ article {
         }
     }
 
-    &:hover .img-box {
-        display: none;
+    &:hover .card-wrapper {
+        transform: rotateY(180deg);
     }
 
     &:hover .data{
