@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header-site @strSearch="getData" />
-    <main-site :arrMovies="arrMovies" :arrSeries="arrSeries"/>
+    <main-site :arrMovies="arrMovies" :arrSeries="arrSeries" :keyword="keyword"/>
   </div>
 </template>
 
@@ -27,11 +27,14 @@ export default {
       arrMovies: [],
       arrSeries: [],
       arrMoviesCast: [],
-      arrSeriesCast: []
+      arrSeriesCast: [],
+      keyword: ''
     }
   },
   methods: {
     getData(str){
+      this.keyword = str
+
       if (str == '' || str == null) {
         //nothing
       } else {

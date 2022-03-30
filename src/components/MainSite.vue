@@ -1,6 +1,9 @@
 <template>
 <main>
     <div class="col container">
+        <p v-if="keyword != ''" class="keyword">hai cercato: <em>{{ keyword }}</em></p>
+        <p v-else></p>
+
         <h2>Film ({{ arrMovies.length }})</h2>
         <p v-if="arrMovies.length == 0">Nessun risultato</p>
         <div class="wrapper row wrap align-stretch" v-else>
@@ -28,7 +31,8 @@ export default {
     },
     props: {
         arrMovies: Array,
-        arrSeries: Array
+        arrSeries: Array,
+        keyword: String
     }
 }
 </script>
@@ -38,6 +42,17 @@ main {
     padding: 0 1rem;
 
     .container {
+
+        .keyword {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #999;
+            text-transform: uppercase;
+
+            em {
+                color: red;
+            }
+        }
 
         .wrapper {
             min-height: 512px;

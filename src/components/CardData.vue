@@ -9,7 +9,7 @@
             <p><strong>Titolo: </strong>{{ details.title || details.name }}</p>
             <p><strong>Titolo originale: </strong>{{ details.original_title || details.original_name }}</p>
 
-            <p v-if="details.cast != null"><strong>Cast: </strong><span class="actor-name" v-for="actor in details.cast" :key="actor.id">{{ actor.name }}</span></p>
+            <p v-if="details.cast.length != 0"><strong>Cast: </strong><span class="actor-name" v-for="actor in details.cast" :key="actor.id">{{ actor.name }}</span></p>
             <p v-else><strong>Cast: </strong><em>non disponibile</em></p>
 
             <p v-if="details.original_language == '' || details.original_language == 'xx'">Nessuna lingua</p>

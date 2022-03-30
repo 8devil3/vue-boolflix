@@ -2,8 +2,8 @@
 <header class="row justify-between align-center wrap">
     <h1>boolflix</h1>
     <div class="row align-center">
-        <input @keyup.enter="$emit('strSearch', strSearch)" type="text" id="search" v-model.trim="strSearch">
-        <button @click="$emit('strSearch', strSearch)">cerca</button>
+        <input @keyup.enter="emitsData(search)" type="text" id="search" v-model.trim="search">
+        <button @click="emitsData(search)">cerca</button>
     </div>
 </header>
 </template>
@@ -13,7 +13,13 @@ export default {
     name: 'HeaderSite.vue',
     data(){
         return {
-            strSearch: ''
+            search: ''
+        }
+    },
+    methods: {
+        emitsData(strSearch){
+            this.$emit('strSearch', strSearch)
+            document.querySelector('#search').value = ''
         }
     }
 }
