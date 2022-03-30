@@ -9,6 +9,9 @@
             <p><strong>Titolo: </strong>{{ details.title || details.name }}</p>
             <p><strong>Titolo originale: </strong>{{ details.original_title || details.original_name }}</p>
 
+            <p v-if="details.cast.length != 0"><strong>Cast: </strong><span class="actor-name" v-for="actor in details.cast" :key="actor.id">{{ actor.name }}</span></p>
+            <p v-else><strong>Cast: </strong><em>cast non disponibile</em></p>
+
             <p v-if="details.original_language == '' || details.original_language == 'xx'">Nessuna lingua</p>
             <p v-else><strong>Lingua: </strong><lang-flag :iso="details.original_language" :squared="false" /></p>
 
@@ -19,7 +22,7 @@
             </p>
             
             <p v-if="details.overview != ''" class="overview"><strong>Trama: </strong>{{ details.overview }}</p>
-            <p v-else class="overview"><em>Trama non disponibile</em></p>
+            <p v-else><strong>Trama: </strong><em>trama non disponibile</em></p>
         </div>
     </div>
 </article>
@@ -107,12 +110,20 @@ article {
             align-self: stretch;
         }
 
+        p {
+            line-height: 150%;
+        }
+
         p:not(:last-child) {
             margin-bottom: 0.8rem;
         }
 
         i {
             color: gold;
+        }
+
+        .actor-name:not(:last-child)::after {
+            content: ', ';
         }
     }
 

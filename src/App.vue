@@ -18,11 +18,14 @@ export default {
   },
   data(){
     return {
-      baseURL: 'https://api.themoviedb.org/3/search/multi/',
+      baseURL: 'https://api.themoviedb.org/3/search/',
       APIkey: '2a1eafb77e5173892c5f55c2d7d7a8c8',
       language: 'it-IT',
       adulte: false,
       arrData: [],
+      arrMovies: [],
+      arrSeries: [],
+      arrCast: []
     }
   },
   methods: {
@@ -40,8 +43,10 @@ export default {
         .then((response) => {
           this.arrData = response.data.results
         })
+        .then(() => {
+          this.setCredits()
+        })
       }
-
     },
     setMovie(){
       return this.arrData.filter(item => {
@@ -51,6 +56,20 @@ export default {
     setSeries(){
       return this.arrData.filter(item => {
         return item.media_type == 'tv'
+      })
+    },
+    setCredits(){
+      this.arrData.forEach((item, index) => {
+        this.getCredits(item.id, index)
+      })
+    },
+    getCredits(id, index){
+      this.arrCast = []
+
+      axios.get('https://api.themoviedb.org/3/movie/' + id + '/credits?api_key=' + this.APIkey + '&language=it-IT')
+      .then((response) => {
+        this.arrCast = response.data.cast
+        this.arrData[index].cast = this.arrCast.slice(0, 5)
       })
     }
   }

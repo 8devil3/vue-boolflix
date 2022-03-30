@@ -34,6 +34,7 @@ header {
     > div {
         border-radius: 100px;
         overflow: hidden;
+        flex-shrink: 0;
 
         input {
             height: 2rem;

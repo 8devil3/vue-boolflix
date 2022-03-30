@@ -38,7 +38,6 @@ main {
     padding: 0 1rem;
 
     .container {
-        max-width: 1680px;
 
         .wrapper {
             min-height: 512px;
