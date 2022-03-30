@@ -2,7 +2,7 @@
 <article>
     <div class="card-wrapper">
         <div class="img-box col">
-            <img v-if="details.poster_path != null" :src="imgBaseURL + imgSizeMedium + details.poster_path" :alt="details.title">
+            <img v-if="details.poster_path != null" :src="imgBaseURL + imgSize + details.poster_path" :alt="details.title">
             <p v-else class="no-img">Locandina non disponibile</p>
         </div>
         <div class="data">
@@ -42,10 +42,7 @@ export default {
     data(){
         return {
             imgBaseURL: 'https://image.tmdb.org/t/p/',
-            imgSizeSmall: 'w154',
-            imgSizeMedium: 'w342',
-            imgSizeLarge: 'w500',
-            imgSizeBig: 'w780',
+            imgSize: 'w342',
             imgURL: ''
         }
     },

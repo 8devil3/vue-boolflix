@@ -1,7 +1,9 @@
 <template>
-  <div id="app">
+  <div id="app" class="col">
     <header-site @strSearch="getData" />
-    <main-site :arrMovies="arrMovies" :arrSeries="arrSeries" :keyword="keyword"/>
+    <main-site v-if="complete" :arrMovies="arrMovies" :arrSeries="arrSeries" :keyword="keyword"/>
+    <div v-else-if="loading" class="loading row align-center justify-center"><i class="fa-solid fa-spinner fa-pulse"></i></div>
+    <div v-else></div>
   </div>
 </template>
 
@@ -28,18 +30,32 @@ export default {
       arrSeries: [],
       arrMoviesCast: [],
       arrSeriesCast: [],
-      keyword: ''
+      keyword: '',
+      complete: false,
+      loading: false
     }
   },
   methods: {
     getData(str){
+      this.complete = false
+      this.arrMovies = []
+      this.arrSeries = []
+
       this.keyword = str
 
       if (str == '' || str == null) {
         //nothing
       } else {
+
         this.getMoviesSeries(str, this.urlMovie)
         this.getMoviesSeries(str, this.urlSeries)
+
+        this.loading = true
+
+        setTimeout(() => {
+        this.complete = true
+        this.loading = false
+        }, 1000);
       }
     },
     getMoviesSeries(str, urlChunk){
@@ -61,7 +77,7 @@ export default {
       })
     },
     getCredits(urlChunk, arrData){
-      arrData.forEach((item, index) => {
+      arrData.forEach((item, index, arr) => {
         axios.get(this.baseURL + urlChunk + item.id + '/credits', { params: {
             api_key: this.APIkey,
             language: this.language,
@@ -90,5 +106,13 @@ export default {
   color: #e6e6e6;
   background-color: #333;
   min-height: 100vh;
+
+  .loading {
+    font-size: 16rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #666;
+    flex-grow: 1;
+    }
 }
 </style>
