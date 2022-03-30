@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header-site @strSearch="getData" />
-    <main-site :arrMovies="arrMovies" :arrSeries="arrSeries"/>
+    <main-site :arrMovies="setMovie()" :arrSeries="setSeries()"/>
   </div>
 </template>
 
@@ -23,14 +23,12 @@ export default {
       language: 'it-IT',
       adulte: false,
       arrData: [],
-      arrMovies: [],
-      arrSeries: []
     }
   },
   methods: {
     getData(str){
       if (str == '' || str == null) {
-        this.resetSearch() //riporto lo stato iniziale in cui i film sono assenti
+        //nothing
       } else {
         axios.get(this.baseURL, { params: {
           api_key: this.APIkey,
@@ -41,28 +39,19 @@ export default {
         })
         .then((response) => {
           this.arrData = response.data.results
-          this.setMovieSeries()
         })
       }
 
     },
-    setMovieSeries(){
-      this.arrMovies = []
-      this.arrSeries = []
-
-      this.arrData.forEach(item => {
-          if (item.media_type == "movie") {
-              this.arrMovies.push(item)
-          } else if (item.media_type == "tv") {
-            this.arrSeries.push(item)
-          } else {
-            //nothing
-          }
+    setMovie(){
+      return this.arrData.filter(item => {
+        return item.media_type == 'movie'
       })
     },
-    resetSearch(){
-      this.arrMovies = []
-      this.arrSeries = []
+    setSeries(){
+      return this.arrData.filter(item => {
+        return item.media_type == 'tv'
+      })
     }
   }
 }
