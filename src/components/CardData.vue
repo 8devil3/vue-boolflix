@@ -83,6 +83,7 @@ article {
         height: 100%;
         width: 100%;
         backface-visibility: hidden;
+        transform: rotateX(0deg); //fix per FireFox: gestisce male la proprietà "backface-visibility: hidden"
     }
 
     img {
