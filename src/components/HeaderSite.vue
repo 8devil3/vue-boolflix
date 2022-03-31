@@ -2,8 +2,8 @@
 <header class="row justify-between align-center wrap">
     <h1>boolflix</h1>
     <div class="row align-center">
-        <input @keyup.enter="emitsData(search)" type="text" id="search" v-model.trim="search">
-        <button @click="emitsData(search)">cerca</button>
+        <input @keyup.enter="emitsData(search)" type="text" id="search" v-model.trim="search" placeholder="Cerca un film o una serie">
+        <button @click="emitsData(search)"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
 </header>
 </template>
@@ -44,6 +44,7 @@ header {
 
         input {
             height: 2rem;
+            min-width: 14rem;
             border: 0;
             padding: 0 1rem;
             
@@ -55,7 +56,7 @@ header {
         button {
             background-color: red;
             color: white;
-            padding: 0 0.5rem;
+            padding: 0 0.8rem;
             text-transform: uppercase;
             align-self: stretch;
             cursor: pointer;

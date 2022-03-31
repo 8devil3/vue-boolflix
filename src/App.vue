@@ -68,12 +68,16 @@ export default {
       }
       })
       .then((response) => {
-        if (urlChunk == this.urlMovies) {
-          this.arrMovies = response.data.results
-          this.getCredits(this.urlMovies, this.arrMovies)
-        } else {
-          this.arrSeries = response.data.results
-          this.getCredits(this.urlSeries, this.arrSeries)
+        switch (urlChunk) {
+          case this.urlMovies:
+            this.arrMovies = response.data.results
+            this.getCredits(this.urlMovies, this.arrMovies)
+            break;
+        
+          case this.urlSeries:
+            this.arrSeries = response.data.results
+            this.getCredits(this.urlSeries, this.arrSeries)
+            break;
         }
       })
     },
@@ -85,12 +89,16 @@ export default {
           }
           })
         .then((response) => {
-          if (urlChunk == this.urlMovies) {
-            this.arrMoviesCast = response.data.cast
-            this.arrMovies[index].cast = this.arrMoviesCast.slice(0, 5)
-          } else {
-            this.arrSeriesCast = response.data.cast
-            this.arrSeries[index].cast = this.arrSeriesCast.slice(0, 5)
+          switch (urlChunk) {
+            case this.urlMovies:
+              this.arrMoviesCast = response.data.cast
+              this.arrMovies[index].cast = this.arrMoviesCast.slice(0, 5)
+              break;
+          
+            case this.urlSeries:
+              this.arrSeriesCast = response.data.cast
+              this.arrSeries[index].cast = this.arrSeriesCast.slice(0, 5)
+              break;
           }
         })
       })
@@ -102,10 +110,14 @@ export default {
       }
       })
       .then((response) => {
-        if (urlChunk == this.urlMovies) {
-          this.arrMoviesGenres = response.data.genres
-        } else {
-          this.arrSeriesGenres = response.data.genres
+        switch (urlChunk) {
+          case this.urlMovies:
+            this.arrMoviesGenres = response.data.genres
+            break;
+        
+          case this.urlSeries:
+            this.arrSeriesGenres = response.data.genres
+            break;
         }
       })
     }

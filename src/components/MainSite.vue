@@ -39,7 +39,7 @@ export default {
 
 <style lang="scss" scoped>
 main {
-    padding: 0 1rem;
+    padding: 1rem;
 
     .container {
 
