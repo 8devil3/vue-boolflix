@@ -22,7 +22,7 @@ export default {
     return {
       baseURL: 'https://api.themoviedb.org/3/',
       APIkey: '2a1eafb77e5173892c5f55c2d7d7a8c8',
-      urlMovie: 'movie/',
+      urlMovies: 'movie/',
       urlSeries: 'tv/',
       language: 'it-IT',
       adulte: false,
@@ -30,6 +30,8 @@ export default {
       arrSeries: [],
       arrMoviesCast: [],
       arrSeriesCast: [],
+      arrMoviesGenres: [],
+      arrSeriesGenres: [],
       keyword: '',
       complete: false,
       loading: false
@@ -46,7 +48,7 @@ export default {
       if (str == '' || str == null) {
         //nothing
       } else {
-        this.getMoviesSeries(str, this.urlMovie)
+        this.getMoviesSeries(str, this.urlMovies)
         this.getMoviesSeries(str, this.urlSeries)
 
         this.loading = true
@@ -66,9 +68,9 @@ export default {
       }
       })
       .then((response) => {
-        if (urlChunk == this.urlMovie) {
+        if (urlChunk == this.urlMovies) {
           this.arrMovies = response.data.results
-          this.getCredits(this.urlMovie, this.arrMovies)
+          this.getCredits(this.urlMovies, this.arrMovies)
         } else {
           this.arrSeries = response.data.results
           this.getCredits(this.urlSeries, this.arrSeries)
@@ -83,7 +85,7 @@ export default {
           }
           })
         .then((response) => {
-          if (urlChunk == this.urlMovie) {
+          if (urlChunk == this.urlMovies) {
             this.arrMoviesCast = response.data.cast
             this.arrMovies[index].cast = this.arrMoviesCast.slice(0, 5)
           } else {
@@ -93,6 +95,24 @@ export default {
         })
       })
     },
+    getAllGenres(urlChunk){
+      axios.get(this.baseURL + 'genre/' + urlChunk + 'list', { params: {
+      api_key: this.APIkey,
+      language: this.language
+      }
+      })
+      .then((response) => {
+        if (urlChunk == this.urlMovies) {
+          this.arrMoviesGenres = response.data.genres
+        } else {
+          this.arrSeriesGenres = response.data.genres
+        }
+      })
+    }
+  },
+  created(){
+    this.getAllGenres(this.urlSeries)
+    this.getAllGenres(this.urlMovies)
   }
 }
 </script>

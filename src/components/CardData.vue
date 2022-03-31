@@ -12,7 +12,7 @@
             <p v-if="details.cast.length != 0"><strong>Cast: </strong><span class="actor-name" v-for="actor in details.cast" :key="actor.id">{{ actor.name }}</span></p>
             <p v-else><strong>Cast: </strong><em>non disponibile</em></p>
 
-            <p v-if="details.original_language == '' || details.original_language == 'xx'">Nessuna lingua</p>
+            <p v-if="details.original_language == '' || details.original_language == 'xx'"><strong>Lingua: </strong><em>non disponibile</em></p>
             <p v-else><strong>Lingua: </strong><lang-flag :iso="details.original_language" :squared="false" /></p>
 
             <p>
