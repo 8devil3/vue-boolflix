@@ -54,8 +54,8 @@ export default {
         this.loading = true
 
         setTimeout(() => {
-        this.complete = true
-        this.loading = false
+          this.loading = false
+          this.complete = true
         }, 1500);
       }
     },
