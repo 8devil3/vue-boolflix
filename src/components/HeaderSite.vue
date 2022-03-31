@@ -2,9 +2,9 @@
 <header class="row justify-between align-center wrap">
     <h1>boolflix</h1>
     <div class="row align-center">
-        <input @keyup.enter="emitsData(search)" type="text" id="search" v-model.trim="search" placeholder="Cerca un film o una serie" :disabled="loading">
+        <input @keyup.enter="$emit('strSearch', search)" type="text" id="search" v-model.trim="search" placeholder="Cerca un film o una serie" :disabled="loading">
         <i class="fa-solid fa-xmark" @click="resetInput"></i>
-        <button @click="emitsData(search)" :disabled="loading"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button @click="$emit('strSearch', search)" :disabled="loading"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
 </header>
 </template>
@@ -21,9 +21,6 @@ export default {
         loading: Boolean
     },
     methods: {
-        emitsData(strSearch){
-            this.$emit('strSearch', strSearch)
-        },
         resetInput(){
             document.querySelector('#search').value = ''
         }
