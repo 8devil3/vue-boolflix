@@ -3,6 +3,7 @@
     <h1>boolflix</h1>
     <div class="row align-center">
         <input @keyup.enter="emitsData(search)" type="text" id="search" v-model.trim="search" placeholder="Cerca un film o una serie" :disabled="loading">
+        <i class="fa-solid fa-xmark" @click="resetInput"></i>
         <button @click="emitsData(search)" :disabled="loading"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
 </header>
@@ -22,6 +23,8 @@ export default {
     methods: {
         emitsData(strSearch){
             this.$emit('strSearch', strSearch)
+        },
+        resetInput(){
             document.querySelector('#search').value = ''
         }
     }
@@ -32,7 +35,12 @@ export default {
 
 header {
     background-color: black;
-    padding: 1rem;
+    height: 6rem;
+    padding: 0 1rem;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 10;
 
     h1 {
         color: red;
@@ -44,6 +52,7 @@ header {
         border-radius: 100px;
         overflow: hidden;
         flex-shrink: 0;
+        position: relative;
 
         input {
             height: 2rem;
@@ -59,6 +68,16 @@ header {
                 color: #999;
                 background-color: #666;
             }
+        }
+
+        .fa-xmark {
+            position: absolute;
+            right: 3rem;
+            top: 50%;
+            transform: translate(0, -50%);
+            color: #999;
+            padding: 0.25rem;
+            cursor: pointer;
         }
 
         button {

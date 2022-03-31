@@ -4,6 +4,13 @@
     box-sizing: border-box;
 }
 
+:root {
+    font-size: 16px;
+
+    --poster-w: 21.375rem;
+    --poster-h: 32rem;
+}
+
 .row {
     display: flex;
     flex-direction: row;

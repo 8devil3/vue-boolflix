@@ -63,8 +63,8 @@ export default {
 
 <style lang="scss" scoped>
 article {
-    width: 21.375rem;
-    height: 32rem;
+    width: var(--poster-w);
+    height:  var(--poster-h);;
     margin: 0.5rem;
     perspective: 80rem;
 
