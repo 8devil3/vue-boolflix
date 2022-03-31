@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="col">
-    <header-site @strSearch="getData" />
+    <header-site @strSearch="getData" :loading="loading"/>
     <main-site v-if="complete" :arrMovies="arrMovies" :arrSeries="arrSeries" :keyword="keyword"/>
     <div v-else-if="loading" class="loading row align-center justify-center"><i class="fa-solid fa-spinner fa-pulse"></i></div>
     <div v-else></div>

@@ -2,8 +2,8 @@
 <header class="row justify-between align-center wrap">
     <h1>boolflix</h1>
     <div class="row align-center">
-        <input @keyup.enter="emitsData(search)" type="text" id="search" v-model.trim="search" placeholder="Cerca un film o una serie">
-        <button @click="emitsData(search)"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <input @keyup.enter="emitsData(search)" type="text" id="search" v-model.trim="search" placeholder="Cerca un film o una serie" :disabled="loading">
+        <button @click="emitsData(search)" :disabled="loading"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
 </header>
 </template>
@@ -15,6 +15,9 @@ export default {
         return {
             search: ''
         }
+    },
+    props: {
+        loading: Boolean
     },
     methods: {
         emitsData(strSearch){
@@ -51,6 +54,11 @@ header {
             &:focus, &:focus-visible {
                 outline: 0;
             }
+
+            &:disabled {
+                color: #999;
+                background-color: #666;
+            }
         }
 
         button {
@@ -63,6 +71,11 @@ header {
 
             &:hover {
                 background-color: rgb(255, 95, 95);
+            }
+
+            &:hover:disabled, &:disabled {
+                background-color: #921414;
+                color: #666
             }
         }
     }
