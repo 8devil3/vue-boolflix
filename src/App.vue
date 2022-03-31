@@ -46,7 +46,6 @@ export default {
       if (str == '' || str == null) {
         //nothing
       } else {
-
         this.getMoviesSeries(str, this.urlMovie)
         this.getMoviesSeries(str, this.urlSeries)
 
@@ -55,7 +54,7 @@ export default {
         setTimeout(() => {
         this.complete = true
         this.loading = false
-        }, 1000);
+        }, 1500);
       }
     },
     getMoviesSeries(str, urlChunk){
@@ -77,7 +76,7 @@ export default {
       })
     },
     getCredits(urlChunk, arrData){
-      arrData.forEach((item, index, arr) => {
+      arrData.forEach((item, index) => {
         axios.get(this.baseURL + urlChunk + item.id + '/credits', { params: {
             api_key: this.APIkey,
             language: this.language,
