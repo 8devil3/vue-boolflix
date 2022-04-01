@@ -9,10 +9,11 @@
             <p><strong>Titolo: </strong>{{ details.title || details.name }}</p>
             <p><strong>Titolo originale: </strong>{{ details.original_title || details.original_name }}</p>
 
-            <p v-if="details.cast.length != 0"><strong>Cast: </strong><span class="item-list" v-for="actor in details.cast" :key="actor.id">{{ actor.name }}</span></p>
+            <p v-if="details.cast.length > 0"><strong>Cast: </strong><span class="item-list" v-for="actor in details.cast" :key="actor.id">{{ actor.name }}</span></p>
             <p v-else><strong>Cast: </strong><em>non disponibile</em></p>
 
-            <p><strong>Genere: </strong><span class="item-list" v-for="genre in details.genres" :key="genre.id">{{ genre.name }}</span></p>
+            <p v-if="details.genres.length > 0"><strong>Genere: </strong><span class="item-list" v-for="genre in details.genres" :key="genre.id">{{ genre.name }}</span></p>
+            <p v-else><strong>Genere: </strong><em>non disponibile</em></p>
 
             <p><strong>Data di uscita: </strong>{{ formatDate(details.release_date) || formatDate(details.first_air_date) }}</p>
 
