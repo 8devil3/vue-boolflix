@@ -72,11 +72,13 @@ export default {
           case this.urlMovies:
             this.arrMovies = response.data.results
             this.getCredits(this.urlMovies, this.arrMovies)
+            this.getGenres(this.urlMovies, this.arrMovies)
             break;
         
           case this.urlSeries:
             this.arrSeries = response.data.results
             this.getCredits(this.urlSeries, this.arrSeries)
+            this.getGenres(this.urlSeries, this.arrSeries)
             break;
         }
       })
@@ -103,28 +105,28 @@ export default {
         })
       })
     },
-    getAllGenres(urlChunk){
-      axios.get(this.baseURL + 'genre/' + urlChunk + 'list', { params: {
-      api_key: this.APIkey,
-      language: this.language
-      }
-      })
-      .then((response) => {
-        switch (urlChunk) {
-          case this.urlMovies:
-            this.arrMoviesGenres = response.data.genres
-            break;
-        
-          case this.urlSeries:
-            this.arrSeriesGenres = response.data.genres
-            break;
-        }
+    getGenres(urlChunk, arrData){
+      arrData.forEach((item, index) => {
+        axios.get(this.baseURL + urlChunk + item.id, { params: {
+            api_key: this.APIkey,
+            language: this.language,
+          }
+          })
+        .then((response) => {
+          switch (urlChunk) {
+            case this.urlMovies:
+              this.arrMoviesGenres = response.data.genres
+              this.arrMovies[index].genres = this.arrMoviesGenres
+              break;
+          
+            case this.urlSeries:
+              this.arrSeriesGenres = response.data.genres
+              this.arrSeries[index].genres = this.arrSeriesGenres
+              break;
+          }
+        })
       })
     }
-  },
-  created(){
-    this.getAllGenres(this.urlSeries)
-    this.getAllGenres(this.urlMovies)
   }
 }
 </script>
